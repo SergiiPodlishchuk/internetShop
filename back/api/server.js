@@ -21,6 +21,7 @@ app.use("/", productRouter);
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: true,
+      useFindAndModify: true,
     });
 
     if (connectDB) {

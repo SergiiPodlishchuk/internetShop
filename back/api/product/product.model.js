@@ -12,6 +12,7 @@ const productSchema = new Schema({
 
 const categorySchema = new Schema({
   categoryName: { type: String, required: true },
+  image: { type: String },
   products: [productSchema],
 });
 

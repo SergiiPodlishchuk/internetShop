@@ -1,0 +1,21 @@
+.categoryList{
+    margin: 0;
+    padding: 0;
+    height: 1000px;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    background-image: url("https://specials-images.forbesimg.com/imageserve/5d3703e2f1176b00089761a6/960x0.jpg?cropX1=836&cropX2=5396&cropY1=799&cropY2=3364");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.categoryItem{
+    width: 200px;
+    height: 200px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    /* background-color: rgba(114, 111, 111, 0.1); */
+    color: white;
+    cursor: pointer;
+}

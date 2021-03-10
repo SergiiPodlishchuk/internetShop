@@ -1,21 +1,36 @@
-import React from "react";
+import React, { Suspense } from "react";
+import { Switch } from "react-router-dom";
 
 import axios from "axios";
 import "./App.css";
 
+import Header from "./components/Header/Header";
+import ModalOrder from "./components/Modal_form_order/Modalorder";
+
+import routes from "./routes/routes";
+import PrivateRoute from "./routes/PrivateRoute";
+import PublicRoute from "./routes/PublicRoute";
+
 function App() {
-  const [word, setWord] = React.useState("");
-
-  function change() {
-    word === ""
-      ? axios.get("http://localhost:7777").then((res) => setWord(res.data))
-      : setWord("");
-  }
-
   return (
     <div className="App">
-      {word}
-      <button onClick={change}>Click me!!</button>
+      <Header />
+      <Suspense fallback={<div>Hi</div>}>
+        <Switch>
+          {routes.map((route) => {
+            return route.private ? (
+              <PrivateRoute key={route.path} {...route} />
+            ) : (
+              <PublicRoute
+                key={route.path}
+                {...route}
+                restricted={route.restricted}
+              />
+            );
+          })}
+        </Switch>
+      </Suspense>
+      <ModalOrder />
     </div>
   );
 }

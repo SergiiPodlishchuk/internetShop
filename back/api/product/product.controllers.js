@@ -38,24 +38,6 @@ async function addCategory(req, res, next) {
     next(error);
   }
 }
-async function addProductCategory(req, res, next) {
-  try {
-    const categoryId = req.params.categoryId;
-    const findCategory = await productModel.findByIdAndUpdate(
-      categoryId,
-      { $push: { products: req.body } },
-      { new: true }
-    );
-
-    if (!findCategory) {
-      return res.status(404).send();
-    }
-
-    return res.status(201).json(findCategory);
-  } catch (error) {
-    next(error);
-  }
-}
 
 async function removeCategory(req, res, next) {
   try {
@@ -71,6 +53,7 @@ async function removeCategory(req, res, next) {
     next(error);
   }
 }
+
 async function updateCategory(req, res, next) {
   try {
     const categoryId = req.params.categoryId;
@@ -89,52 +72,116 @@ async function updateCategory(req, res, next) {
   }
 }
 
-function validateId(req, res, next) {
-  const { contactId } = req.params;
+async function addProductCategory(req, res, next) {
+  try {
+    const categoryId = req.params.categoryId;
+    const findCategory = await productModel.findByIdAndUpdate(
+      categoryId,
+      { $push: { products: req.body } },
+      { new: true }
+    );
 
-  if (!ObjectId.isValid(contactId)) {
-    return res.status(400).send();
+    if (!findCategory) {
+      return res.status(404).send();
+    }
+
+    return res.status(201).json(findCategory);
+  } catch (error) {
+    next(error);
   }
-  next();
+}
+async function removeProductCategory(req, res, next) {
+  try {
+    const categoryId = req.params.categoryId;
+    const productId = req.params.productId;
+
+    const findCategory = await productModel.findByIdAndUpdate(
+      categoryId,
+      { $pull: { products: { _id: productId } } },
+      { new: true }
+    );
+
+    if (!findCategory) {
+      return res.status(404).send();
+    }
+
+    return res.status(201).json(findCategory);
+  } catch (error) {
+    next(error);
+  }
+}
+async function updateProductCategory(req, res, next) {
+  try {
+    const categoryId = req.params.categoryId;
+    const productId = req.params.productId;
+
+    const findCategory = await productModel.findByIdAndUpdate(
+      categoryId,
+      { $set: { "products.$[product]": req.body } },
+      {
+        arrayFilters: [{ "product._id": productId }],
+        new: true,
+      }
+    );
+
+    if (!findCategory) {
+      return res.status(404).send();
+    }
+
+    return res.status(201).json(findCategory);
+  } catch (error) {
+    next(error);
+  }
 }
 
-function validateContact(req, res, next) {
-  const validationRules = Joi.object({
-    name: Joi.string().required(),
-    email: Joi.string().required(),
-    phone: Joi.string().required(),
-    subscription: Joi.string().required(),
-    password: Joi.string().required(),
-  });
-  const val = validationRules.validate(req.body);
-  if (val.error) {
-    return res.status(400).send(val.error.details[0].message);
-  }
-  next();
-}
-function validateUpdateContact(req, res, next) {
-  const validationRules = Joi.object({
-    name: Joi.string(),
-    email: Joi.string(),
-    phone: Joi.string(),
-    subscription: Joi.string(),
-    password: Joi.string(),
-  });
-  const val = validationRules.validate(req.body);
-  if (val.error) {
-    return res.status(400).send(val.error.details[0].message);
-  }
-  next();
-}
+// function validateId(req, res, next) {
+//   const { contactId } = req.params;
+
+//   if (!ObjectId.isValid(contactId)) {
+//     return res.status(400).send();
+//   }
+//   next();
+// }
+
+// function validateContact(req, res, next) {
+//   const validationRules = Joi.object({
+//     name: Joi.string().required(),
+//     email: Joi.string().required(),
+//     phone: Joi.string().required(),
+//     subscription: Joi.string().required(),
+//     password: Joi.string().required(),
+//   });
+//   const val = validationRules.validate(req.body);
+//   if (val.error) {
+//     return res.status(400).send(val.error.details[0].message);
+//   }
+//   next();
+// }
+// function validateUpdateContact(req, res, next) {
+//   const validationRules = Joi.object({
+//     name: Joi.string(),
+//     email: Joi.string(),
+//     phone: Joi.string(),
+//     subscription: Joi.string(),
+//     password: Joi.string(),
+//   });
+//   const val = validationRules.validate(req.body);
+//   if (val.error) {
+//     return res.status(400).send(val.error.details[0].message);
+//   }
+//   next();
+// }
 
 module.exports = {
   listCategory,
   getById,
   addCategory,
-  addProductCategory,
   removeCategory,
   updateCategory,
-  validateId,
-  validateContact,
-  validateUpdateContact,
+  addProductCategory,
+  removeProductCategory,
+  updateProductCategory,
+  //   validateId,
+  //   validateContact,
+  //   validateUpdateContact,
 };
