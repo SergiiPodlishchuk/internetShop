@@ -32,6 +32,7 @@ async function getById(req, res, next) {
 
 async function addCategory(req, res, next) {
   try {
+    console.log(req.body);
     const categoryCreate = await productModel.create(req.body);
     return res.status(201).json(categoryCreate);
   } catch (error) {

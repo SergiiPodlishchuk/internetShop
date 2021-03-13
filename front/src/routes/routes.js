@@ -3,8 +3,8 @@ import { lazy } from "react";
 
 export default [
   {
-    path: "/categories",
-    label: "Home",
+    path: "/",
+    label: "Category",
     exact: true,
     component: lazy(() =>
       import(
@@ -12,7 +12,7 @@ export default [
       )
     ),
     private: false,
-    restricted: true,
+    restricted: false,
   },
   {
     path: "/products",
@@ -27,7 +27,7 @@ export default [
     restricted: true,
   },
   {
-    path: "/infoProduct",
+    path: "/products/infoProduct",
     label: "InfoProduct",
     exact: true,
     component: lazy(() =>

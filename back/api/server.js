@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const productRouter = require("./product/product.routers");
+const basketRouter = require("./basket/basket.router");
 
 const MONGODB =
   "mongodb+srv://podluy23:magazin12@cluster0.rn3qz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
@@ -13,6 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({ origin: "*" }));
 
+app.use("/basket", basketRouter);
 app.use("/", productRouter);
 
 (async function () {

@@ -1,7 +1,6 @@
 import React, { Suspense } from "react";
 import { Switch } from "react-router-dom";
 
-import axios from "axios";
 import "./App.css";
 
 import Header from "./components/Header/Header";
@@ -30,7 +29,7 @@ function App() {
           })}
         </Switch>
       </Suspense>
-      <ModalOrder />
+      {/* <ModalOrder /> */}
     </div>
   );
 }
